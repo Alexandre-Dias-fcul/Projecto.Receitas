@@ -1,0 +1,14 @@
+﻿<ul class="list-group list-group-flush">
+    <li id="verReceitas" class="list-group-item list-group-item-dark link_hover">
+        <a onclick="LinkActivo(this,'link_selecionado')" asp-page="/Index">Ver Receitas</a>
+    </li>
+    <li id="adicionarReceitas" class="list-group-item list-group-item-dark link_hover">
+        <a onclick="LinkActivo(this,'link_selecionado')" asp-page="/Receitas/AdicionarReceita">Adicionar uma Receita</a>
+    </li>
+    <li id="meusFavoritos" class="list-group-item list-group-item-dark link_hover">
+        <a onclick="LinkActivo(this,'link_selecionado')" asp-page="/Receitas/VerFavoritos">Os Meus Favoritos</a>
+    </li>
+    <li id="minhasReceitas" class="list-group-item list-group-item-dark link_hover">
+        <a onclick="LinkActivo(this,'link_selecionado')" asp-page="/Receitas/VerMinhasReceitas">As Minhas Receitas</a>
+   </li>
+</ul>

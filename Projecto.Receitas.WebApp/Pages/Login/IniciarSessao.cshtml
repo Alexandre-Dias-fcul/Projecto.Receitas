@@ -1,0 +1,50 @@
+﻿@page
+@model Projecto.Receitas.WebApp.Pages.Login.IniciarSessaoModel
+@{
+    ViewData["Title"] = "Iniciar Sessão";
+}
+
+@section pesquisa
+{
+    <partial name="_pesquisaIndex" />
+}
+
+@section navegacao
+{
+    <partial name="_navAnonimo" />
+}
+
+<div class="container_login fundo_login">
+    <div class="moldura_login">
+        <h3>Iniciar Sessão</h3>
+        <form method="post">
+           <div class="row">
+                <div class="col-12 text-danger">@Model.MensagemErro</div>
+           </div>
+           <div class="form-group row m-3">
+                <div class="input-group col-md-12">
+                    <span class="input-group-text">Username</span>
+                    <input asp-for="Login.Username" class="form-control" />
+               </div>
+           </div>
+            <div class="row">
+                <span asp-validation-for="Login.Username" class="col-12 text-danger"></span>
+           </div>
+            <div class="form-group row m-3">
+                <div class="input-group col-md-12">
+                    <span class="input-group-text">Password</span>
+                    <input asp-for="Login.Password" type="password" class="form-control" />
+                </div>
+           </div>
+            <div class="row">
+               <span asp-validation-for="Login.Username" class="col-12 text-danger"></span>
+            </div>
+            <div class="row mt-2">
+                <div class="col-1"></div>
+                <a class="col-3 btn btn-dark" asp-page="/Login/Registar">Registar</a>
+                <div class="col-4"></div>
+                <button type="submit" class="col-3 btn btn-secondary">Enviar</button>
+            </div>
+        </form>
+    </div>
+</div>

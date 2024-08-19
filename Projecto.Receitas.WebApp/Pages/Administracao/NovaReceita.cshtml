@@ -1,0 +1,103 @@
+﻿@page
+@model Projecto.Receitas.WebApp.Pages.Administracao.NovaReceitaModel
+@{
+    ViewData["title"] = "Nova Receita";
+}
+
+@section pesquisa
+{
+    <partial name="_semPesquisa" />
+}
+
+@section navegacao
+{
+    <partial name="_navAdministracao" />
+}
+
+
+<div class="container fundo_admin">
+    <div class="row p-5">
+        <div class="col-2"></div>
+        <div class="col-10">
+            <div class="card container_dimensoes">
+                <div class="card-header text-center bg-dark text-white">
+                    <h3>Criar Nova Receita</h3>
+                </div>
+                <div class="card-body bg-secondary bg-opacity-50 bg-gradient">
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col-2"></div>
+                                <div class="col-10">
+                                    <form method="post" enctype="multipart/form-data">
+                                        <div class="form-group row m-3">
+                                            <div class="input-group col-12">
+                                                <span class="input-group-text">Título</span>
+                                                <input asp-for="Receita.Titulo" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Receita.Titulo" class="col-12 text-danger"></span>
+                                        </div>
+                                        <div class="form-group row m-3">
+                                            <label asp-for="Receita.Imagem" class="col-4 form-label"></label>
+                                            <input asp-for="Receita.Imagem" type="file" class="col-8 form-control" />
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Receita.Imagem" class="col-md-12 text-danger"></span>
+                                        </div>
+                                        <div class="form-group row m-3">
+                                            <label asp-for="Receita.ModoDePreparacao" class="col-6 form-label">Modo de Preparação</label>
+                                            <textarea asp-for="Receita.ModoDePreparacao" rows="10" cols="20" class="col-6 form-control"></textarea>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Receita.ModoDePreparacao" class="col-12 text-danger"></span>
+                                        </div>
+                                        <div class="form-group row m-3">
+                                            <label asp-for="Receita.TempoDePreparacao" class="col-6 form-label">Tempo de Preparação</label>
+                                            <select asp-for="Receita.TempoDePreparacao" asp-items="@Model.Tempos" class="col-6 form-select"></select>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Receita.TempoDePreparacao" class="col-12 text-danger"></span>
+                                        </div>
+                                        <div class="form-group row m-3">
+                                            <label asp-for="Receita.Dificuldade" class="col-6 form-label">Grau de Dificuldade</label>
+                                            <select asp-for="Receita.Dificuldade" asp-items="@Model.Graus" class="col-6 form-select"></select>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Receita.Dificuldade" class="col-12 text-danger"></span>
+                                        </div>
+                                        <div class="form-group row m-3">
+                                            <label asp-for="Receita.Estado" class="col-4 form-label"></label>
+                                            <select asp-for="Receita.Estado" asp-items="Model.Estados" class="col-8 form-select"></select>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Receita.Estado" class="col-12 text-danger"></span>
+                                        </div>
+                                        <div class="form-group row m-3">
+                                            <label asp-for="Receita.CategoriaId" class="col-6 form-label">Categoria</label>
+                                            <select asp-for="Receita.CategoriaId" asp-items="@Model.Categorias" class="col-6 form-select"></select>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Receita.CategoriaId" class="col-12 text-danger"></span>
+                                        </div>
+                                        <input asp-for="Receita.UtilizadorId" type="hidden" />
+                                        <input asp-for="IdPagina" type="hidden" />
+                                        <input asp-for="Texto" type="hidden" />
+                                        <div class="row m-3">
+                                            <a asp-page="/Administracao/VerReceitas" asp-route-id="@Model.IdPagina"
+                                               class="col-4 btn btn-dark" asp-route-texto="@Model.Texto">Voltar</a>
+                                            <div class="col-4"></div>
+                                            <button type="submit" class="col-4 btn btn-secondary">Enviar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

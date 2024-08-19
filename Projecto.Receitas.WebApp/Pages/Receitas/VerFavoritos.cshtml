@@ -1,0 +1,82 @@
+﻿@page
+@using Projecto.Receitas.WebApp.ViewModel
+@model Projecto.Receitas.WebApp.Pages.Receitas.VerFavoritosModel
+@{
+    ViewData["Title"] = "Favoritos";
+}
+
+@section pesquisa
+{
+    <partial name="_pesquisaIndex" />
+}
+
+@section navegacao
+{
+    <partial name="_navAutenticado" />
+}
+
+
+<div class="container fundo">
+    <div class="row">
+        <div class="col-12">
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <div class="p-2 bg-dark" style="min-width:1050px;">
+                            <h3 class="text-white text-center">
+                                As Minhas Receitas Favoritas
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <div class="container_favoritos">
+
+                            @foreach (ReceitaViewModelAvaliacao receita in Model.Receitas)
+                            {
+                                <article class="article_favoritos">
+                                    <div class="img_titulo_favoritos">
+                                        @if(string.IsNullOrEmpty(receita.Receita.ImagemUrl))
+                                        {
+                                            <img src="~/img/imagens-site/image_not_found.jpg" alt="Receita" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/img/uploads-receitas/@receita.Receita.ImagemUrl" alt="Receita" />
+                                        }
+                                        <h3><a asp-page="/Detalhes" asp-route-id="@receita.Receita.ReceitaId">@receita.Receita.Titulo</a></h3>
+                                    </div>
+                                    <div class="tempo_avaliacao_favoritos">
+                                        <div class="tempo">
+                                            @((int)receita.Receita.TempoDePreparacao) <i class="fa-solid fa-clock"></i>
+                                        </div>
+                                        <div class="apagar_favoritos">
+                                            <a asp-page="ApagarFavorito" asp-route-id="@receita.Receita.ReceitaId"
+                                               asp-route-codigo="@Model.Codigo"
+                                               data-bs-toggle="tooltip" title="Apagar"><i class="fa-regular fa-trash-can"></i> </a>
+                                        </div>
+                                        <div class="avaliacao_favoritos">
+                                            @Math.Round(receita.Avaliacao, 1) <span class="fa fa-star checked"></span>
+                                        </div>
+                                    </div>
+                                </article>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.Id <= Model.MaximoId && Model.Id >= 1)
+            {
+                <div class="ver_mais"><a class="bg-white" asp-page="/Receitas/VerFavoritos" asp-route-id="@Model.Id">Ver Mais</a></div>
+            }
+        </div>
+    </div>
+</div>
+
+

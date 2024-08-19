@@ -1,0 +1,159 @@
+﻿@page
+@using Projecto.Receitas.Domain.Model
+@model Projecto.Receitas.WebApp.Pages.Administracao.VerFavoritosAdministracaoModel
+@{
+    ViewData["Title"] = "Ver Favoritos";
+}
+
+@section pesquisa
+{
+    <partial name="_semPesquisa" />
+}
+
+@section navegacao
+{
+    <partial name="_navAdministracao" />
+}
+
+<div class="container fundo_admin">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <div class="container mt-5 mb-5 container_definicoes_exterior">
+                <div class="row">
+                    <div class="col-12 p-4 bg-dark">
+                        <h3 class="text-white text-center">
+                            Favoritos
+                        </h3>
+                    </div>
+                </div>
+                <div class="row bg-secondary">
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <div class="col-10">
+                                <div class="card card_definicoes mt-5">
+                                    @if (string.IsNullOrEmpty(Model.Utilizador.FotoUrl))
+                                    {
+                                        <img class="card-img-top" src="~/img/imagens-site/image_not_found.jpg" alt="Foto de Utilizador" />
+                                    }
+                                    else
+                                    {
+                                        <img class="card-img-top" src="~/img/uploads-users/@Model.Utilizador.FotoUrl" alt="Foto de Utilizador" />
+                                    }
+                                    <div class="card-footer text-center">
+                                        <h3>@Model.Utilizador.PrimeiroNome @Model.Utilizador.UltimoNome</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <div class="col-6">
+                                <nav class="sidebar mt-5 mb-5">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white mouse_hover" asp-page="/Administracao/VerAccount"
+                                               asp-route-idUser="@Model.Utilizador.UtilizadorId"
+                                               asp-route-idPagina="@Model.IdPagina"
+                                               asp-route-texto="@Model.Texto">Account</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white mouse_hover" asp-page="/Administracao/VerContactos"
+                                               asp-route-idUser="@Model.Utilizador.UtilizadorId"
+                                               asp-route-idPagina="@Model.IdPagina"
+                                               asp-route-texto="@Model.Texto">Contactos</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white mouse_hover" asp-page="/Administracao/VerEnderecos"
+                                               asp-route-idUser="@Model.Utilizador.UtilizadorId"
+                                               asp-route-idPagina="@Model.IdPagina"
+                                               asp-route-texto="@Model.Texto">Endereços</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-white mouse_hover" asp-page="/Administracao/VerAvaliacoes"
+                                               asp-route-idUser="@Model.Utilizador.UtilizadorId"
+                                               asp-route-idPagina="@Model.IdPagina"
+                                               asp-route-texto="@Model.Texto">Avaliações</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-white mouse_hover" asp-page="/Administracao/VerComentariosAdministracao"
+                                               asp-route-idUser="@Model.Utilizador.UtilizadorId"
+                                               asp-route-idPagina="@Model.IdPagina"
+                                               asp-route-texto="@Model.Texto">Comentários</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-white mouse_hover" asp-page="/Administracao/VerFavoritosAdministracao"
+                                               asp-route-idUser="@Model.Utilizador.UtilizadorId"
+                                               asp-route-idPagina="@Model.IdPagina"
+                                               asp-route-texto="@Model.Texto">Favoritos</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white mouse_hover" asp-page="/Administracao/VerUtilizadores"
+                                               asp-route-id="@Model.IdPagina" asp-route-texto="@Model.Texto">Voltar à Lista</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="rows">
+                            <div class="col-10">
+
+                                @if(Model.Favoritos.Count!=0)
+                                {
+                                    <div class="card mt-5 mb-5">
+                                        <div class="card-header bg-black text-center text-white">
+                                            Ver Favoritos
+                                        </div>
+                                        <div class="card-body bg-dark  text-white">
+                                            <table class="table table-dark w-100">
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                                @foreach (Favorito favorito in Model.Favoritos)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @if(string.IsNullOrEmpty(favorito.Receita.ImagemUrl))
+                                                            {
+                                                                <img class="img-thumbnail imagem_avaliacoes"
+                                                                     src="~/img/imagens-site/image_not_found.jpg"
+                                                                     class="card-img" alt="Receita" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <img class="img-thumbnail imagem_avaliacoes"
+                                                                     src="~/img/uploads-receitas/@favorito.Receita.ImagemUrl"
+                                                                     class="card-img" alt="Receita" />
+                                                            }                                                          
+                                                            &nbsp;&nbsp;&nbsp;@favorito.Receita.Titulo
+                                                        </td>
+                                                        <td>
+                                                            <a class="text-white" asp-page="/Administracao/ApagarFavoritoAdministracao"
+                                                               asp-route-idReceita="@favorito.Receita.ReceitaId"
+                                                               asp-route-idUser="@Model.Utilizador.UtilizadorId"
+                                                               asp-route-idPagina="@Model.IdPagina"
+                                                               asp-route-texto="@Model.Texto"
+                                                               data-bs-toggle="tooltip" title="Apagar"
+                                                               onclick="return confirmIt();">
+                                                                <i class="fa-regular fa-trash-can"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

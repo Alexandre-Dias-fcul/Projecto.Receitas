@@ -1,0 +1,60 @@
+﻿@page
+@model Projecto.Receitas.WebApp.Pages.Administracao.AlterarIngredienteModel
+@{
+    ViewData["Title"] = "Alterar Ingrediente";
+}
+
+@section pesquisa
+{
+    <partial name="_semPesquisa" />
+}
+
+@section navegacao
+{
+    <partial name="_navAdministracao" />
+}
+
+
+<div class="container fundo_admin h-100">
+    <div class="row p-5">
+        <div class="col-2"></div>
+        <div class="col-10">
+            <div class="card container_dimensoes">
+                <div class="card-header text-center bg-dark text-white">
+                    <h3>Alterar Ingrediente</h3>
+                </div>
+                <div class="card-body bg-secondary bg-opacity-50 bg-gradient">
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col-2"></div>
+                                <div class="col-10">
+                                    <form method="post">
+                                        <input asp-for="Ingrediente.IngredienteId" type="hidden" />
+                                        <div class="form-group row m-3">
+                                            <div class="input-group col-12">
+                                                <span class="input-group-text">Nome do Ingrediente</span>
+                                                <input asp-for="Ingrediente.IngredienteNome" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Ingrediente.IngredienteNome" class="col-12 text-danger"></span>
+                                        </div>
+                                        <input asp-for="IdPagina" type="hidden" />
+                                        <input asp-for="Texto" type="hidden" />
+                                        <div class="row m-3">
+                                            <a asp-page="/Administracao/VerIngredientes" asp-route-id="@Model.IdPagina"
+                                               class="col-4 btn btn-dark" asp-route-texto="@Model.Texto">Voltar</a>
+                                            <div class="col-4"></div>
+                                            <button type="submit" class="col-4 btn btn-secondary">Alterar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

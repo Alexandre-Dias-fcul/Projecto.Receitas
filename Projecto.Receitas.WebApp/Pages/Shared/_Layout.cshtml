@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Projecto.Receitas.WebApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Projecto.Receitas.WebApp.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/fontawesome-6.5.1-web/css/all.css">
+</head>
+<body onload="LinkActivoArranque()">
+    <header>
+        <div class="grupo_titulo_pesquisa">
+            <h3 class="titulo_header"><a asp-page="/Index"><img class="titulo_header_img" src="~/img/imagens-site/logo_receitas.jpg" 
+                 alt="icone_receitas" />Receitas <span class="titulo_header_span">para todos os</span> Gostos</a></h3>
+            @RenderSection("pesquisa");
+             
+        </div>
+        <div class="grupo_terminar_sessao">
+        
+            @if (Accessor.HttpContext.Session.Keys.Contains("Permissoes"))
+            {
+                <div id="iniciar_sessao" class="iniciar_sessao">
+                    <a onclick="LinkActivo(this,'iniciar_sessao_activo')" asp-page="/Conta/VerDadosPessoais">A minha Conta</a>
+                </div>
+            }
+            else
+            {
+                <div id="iniciar_sessao" class="iniciar_sessao">
+                    <a onclick="LinkActivo(this,'iniciar_sessao_activo')" asp-page="/Login/IniciarSessao">Iniciar Sessão</a>
+                </div>
+            } 
+            @if (Accessor.HttpContext.Session.GetString("Permissoes")=="Administrador")
+            {
+                <div id="administracao" class="iniciar_sessao">
+                    <a onclick="LinkActivo(this,'iniciar_sessao_activo')" asp-page="/Administracao/VerUtilizadores">Administração</a>
+                </div>
+            }
+        </div>
+    </header>
+    <div class="container_principal">
+        <nav class="administracao">
+            @RenderSection("navegacao");
+        </nav>
+        <main>
+            @RenderBody()
+        </main>
+    </div>
+    <footer>
+        <div class="container_footer">
+            <h3 class="titulo_footer">
+                  <img class="titulo_footer_img" src="~/img/imagens-site/logo_receitas.jpg"
+                         alt="icone_receitas" />Receitas <span class="titulo_footer_span">para todos os</span> Gostos
+            </h3>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/funcoes.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

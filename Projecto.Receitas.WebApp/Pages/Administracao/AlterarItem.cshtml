@@ -1,0 +1,75 @@
+﻿@page
+@model Projecto.Receitas.WebApp.Pages.Administracao.AlterarItemModel
+@{
+    ViewData["Title"] = "Alterar Ingredientes da Receita";
+}
+
+@section pesquisa
+{
+    <partial name="_semPesquisa" />
+}
+
+@section navegacao
+{
+    <partial name="_navAdministracao" />
+}
+
+
+<div class="container fundo_admin">
+    <div class="row p-5">
+        <div class="col-2"></div>
+        <div class="col-10">
+            <div class="card container_dimensoes">
+                <div class="card-header text-center bg-dark text-white">
+                    <h3>Alterar Ingrediente da Receita</h3>
+                </div>
+                <div class="card-body bg-secondary bg-opacity-50 bg-gradient">
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col-2"></div>
+                                <div class="col-10">
+                                    <form method="post">
+                                        <input asp-for="Item.ItemId" type="hidden" />
+                                        <div class="form-group row m-3">
+                                            <div class="input-group col-12">
+                                                <span class="input-group-text">Quantidade</span>
+                                                <input asp-for="Item.Quantidade" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Item.Quantidade" class="col-12 text-danger"></span>
+                                        </div>
+                                        <div class="form-group row m-3">
+                                            <label asp-for="Item.MedidaId" class="col-4 form-label">Medida</label>
+                                            <select asp-for="Item.MedidaId" asp-items="@Model.Medidas" class="col-8 form-select"></select>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Item.MedidaId" class="col-12 text-danger"></span>
+                                        </div>
+                                        <input asp-for="Item.ReceitaId" type="hidden" />
+                                        <div class="form-group row m-3">
+                                            <label asp-for="Item.IngredienteId" class="col-4 form-label">Ingrediente</label>
+                                            <select asp-for="Item.IngredienteId" asp-items="@Model.Ingredientes" class="col-8 form-control"></select>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Item.IngredienteId" class="col-12 text-danger"></span>
+                                        </div>
+                                        <input asp-for="IdPagina" type="hidden" />
+                                        <input asp-for="Texto" type="hidden" />
+                                        <div class="row m-3">
+                                            <a asp-page="/Administracao/VerReceita" asp-route-idReceita="@Model.Item.ReceitaId"
+                                               class="col-4 btn btn-dark" asp-route-texto="@Model.Texto">Voltar</a>
+                                            <div class="col-4"></div>
+                                            <button type="submit" class="col-4 btn btn-secondary">Alterar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

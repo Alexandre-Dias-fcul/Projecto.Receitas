@@ -1,0 +1,125 @@
+﻿@page
+@model Projecto.Receitas.WebApp.Pages.Conta.AlterarEnderecoContaModel
+@{
+    ViewData["Title"] = "Alterar Endereço";
+}
+
+@section pesquisa
+{
+    <partial name="_pesquisaIndex" />
+}
+
+@section navegacao
+{
+    <partial name="_navAutenticado" />
+}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary barra_conta">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown" id="perfil">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Perfil
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li id="dados">
+                        <a class="dropdown-item" asp-page="/Conta/VerDadosPessoais"
+                           onclick="LinkActivo(this,'active')">Dados Pessoais</a>
+                    </li>
+                    <li id="contactos">
+                        <a class="dropdown-item" asp-page="/Conta/VerContactosConta" onclick="LinkActivo(this,'active')">Contactos</a>
+                    </li>
+                    <li id="enderecos">
+                        <a class="dropdown-item" asp-page="/Conta/VerEnderecosConta" onclick="LinkActivo(this,'active')">Endereços</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item" id="definicoes">
+                <a class="nav-link" asp-page="/Conta/VerDefinicoesConta"
+                   onclick="LinkActivo(this,'active')">Conta</a>
+            </li>
+            <li class="nav-item" id="terminar_sessao">
+                <a class="nav-link" asp-page="/Login/TerminarSessao" onclick="LinkActivo(this,'active')">Terminar Sessão</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container fundo_conta">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-3">
+            <div class="card card_perfil mt-5 mb-5">
+                @if (string.IsNullOrEmpty(Model.Utilizador.FotoUrl))
+                {
+                    <img src="~/img/imagens-site/image_not_found.jpg" class="card-img-top" alt="Foto de Utilizador" />
+                }
+                else
+                {
+                    <img src="~/img/uploads-users/@Model.Utilizador.FotoUrl" class="card-img-top" alt="Foto de Utilizador" />
+                }
+                <div class="card-footer text-center">@Model.Utilizador.PrimeiroNome @Model.Utilizador.UltimoNome</div>
+            </div>
+        </div>
+        <div class="col-7">
+            <div class="card m-5">
+                <div class="card-header text-center bg-secondary text-white"><h3>Alterar Endereço</h3></div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-9">
+                            <form method="post">
+                                <input asp-for="Endereco.EnderecoId" type="hidden" />
+                                <div class="form-group row m-3">
+                                    <div class="input-group col-md-12">
+                                        <span class="input-group-text">Rua</span>
+                                        <input asp-for="Endereco.Rua" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <span asp-validation-for="Endereco.Rua" class="col-12 text-danger"></span>
+                                </div>
+                                <div class="form-group row m-3">
+                                    <div class="input-group col-md-12">
+                                        <span class="input-group-text">Código Postal</span>
+                                        <input asp-for="Endereco.CodigoPostal" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <span asp-validation-for="Endereco.CodigoPostal" class="col-12 text-danger"></span>
+                                </div>
+                                <div class="form-group row m-3">
+                                    <div class="input-group col-md-12">
+                                        <span class="input-group-text">Localidade</span>
+                                        <input asp-for="Endereco.Localidade" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <span asp-validation-for="Endereco.Localidade" class="col-12 text-danger"></span>
+                                </div>
+
+                                <div class="form-group row m-3">
+                                    <div class="input-group col-md-12">
+                                        <span class="input-group-text">País</span>
+                                        <input asp-for="Endereco.Pais" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <span asp-validation-for="Endereco.Pais" class="col-12 text-danger"></span>
+                                </div>
+                                <input asp-for="Endereco.UtilizadorId" type="hidden" />
+                                <div class="row m-4">
+                                    <a class="btn btn-dark col-4" asp-page="/Conta/VerEnderecosConta">Voltar</a>
+                                    <div class="col-4"></div>
+                                    <button type="submit" class="col-4 btn btn-secondary">Enviar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

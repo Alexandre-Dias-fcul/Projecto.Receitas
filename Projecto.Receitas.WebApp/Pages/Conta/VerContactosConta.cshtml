@@ -1,0 +1,129 @@
+﻿@page
+@using Projecto.Receitas.Domain.Model
+@model Projecto.Receitas.WebApp.Pages.Conta.VerContactosContaModel
+@{
+    ViewData["title"] = "Ver Contactos";
+}
+
+@section pesquisa
+{
+    <partial name="_pesquisaIndex" />
+}
+
+@section navegacao
+{
+    <partial name="_navAutenticado" />
+}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary barra_conta">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Perfil
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li id="dados">
+                        <a class="dropdown-item" asp-page="/Conta/VerDadosPessoais"
+                           onclick="LinkActivo(this,'active')">Dados Pessoais</a>
+                    </li>
+                    <li id="contactos">
+                        <a class="dropdown-item" asp-page="/Conta/VerContactosConta" onclick="LinkActivo(this,'active')">Contactos</a>
+                    </li>
+                    <li id="enderecos">
+                        <a class="dropdown-item" asp-page="/Conta/VerEnderecosConta" onclick="LinkActivo(this,'active')">Endereços</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item" id="definicoes">
+                <a class="nav-link" asp-page="/Conta/VerDefinicoesConta"
+                   onclick="LinkActivo(this,'active')">Conta</a>
+            </li>
+            <li class="nav-item" id="terminar_sessao">
+                <a class="nav-link" asp-page="/Login/TerminarSessao" onclick="LinkActivo(this,'active')">Terminar Sessão</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container fundo_conta">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-3 mt-5 mb-5">
+            <div class="card card_perfil">
+                @if (string.IsNullOrEmpty(Model.Utilizador.FotoUrl))
+                {
+                    <img src="~/img/imagens-site/image_not_found.jpg" class="card-img-top" alt="Foto de Utilizador" />
+                }
+                else
+                {
+                    <img src="~/img/uploads-users/@Model.Utilizador.FotoUrl" class="card-img-top" alt="Foto de Utilizador" />
+                }
+                <div class="card-footer text-center">@Model.Utilizador.PrimeiroNome @Model.Utilizador.UltimoNome</div>
+            </div>
+        </div>
+        <div class="col-7">
+
+            @if(Model.Contactos.Count!=0)
+            {
+                <div class="card m-5">
+                    <div class="card-header text-center text-center text-white bg-secondary">
+                        Contactos
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-borderless fw-bold">
+                            <tr>
+                                <td>
+                                    <a class="text-black" asp-page="/Conta/NovoContactoConta"
+                                       data-bs-toggle="tooltip" title="Novo Contacto"><i class="fa-solid fa-square-plus"></i></a>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            @foreach (Contacto contacto in Model.Contactos)
+                            {
+                                <tr>
+                                    <td>@contacto.Tipo:</td>
+                                    <td>@contacto.Valor</td>
+                                    <td>
+                                        <a class="text-black" asp-page="/Conta/AlterarContactoConta" 
+                                           asp-route-idContacto="@contacto.ContactoId"
+                                           asp-route-codigo="@Model.Codigo"
+                                           data-bs-toggle="tooltip" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    </td>
+                                    <td>
+                                        <a class="text-black" asp-page="/Conta/ApagarContactoConta" 
+                                           asp-route-idContacto="@contacto.ContactoId"
+                                           asp-route-codigo="@Model.Codigo"
+                                           data-bs-toggle="tooltip" title="Apagar"
+                                           onclick="return confirmIt();"><i class="fa-regular fa-trash-can"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="card m-5">
+                    <div class="card-header text-center text-center text-white bg-secondary">
+                        Contactos
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4"></div>
+                            <a class="btn btn-secondary col-4" asp-page="/Conta/NovoContactoConta">Criar Contacto</a>
+                        </div> 
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+

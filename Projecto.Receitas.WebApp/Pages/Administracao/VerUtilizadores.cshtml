@@ -1,0 +1,224 @@
+﻿@page
+@using Projecto.Receitas.Domain.Model
+@model Projecto.Receitas.WebApp.Pages.Administracao.VerUtilizadoresModel
+@{
+    ViewData["Title"] = "Utilizadores";
+}
+
+@section pesquisa
+{
+    <div class="pesquisa">
+        <form method="get" asp-page="/Administracao/VerUtilizadores">
+            <div class="input-group">
+                <input name="texto" type="search" class="form-control" onchange="this.form.submit();" />
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-secondary">Pesquisar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+
+@section navegacao
+{
+    <partial name="_navAdministracao" />
+}
+
+<div class="container fundo_admin pb-5 pt-5 h-100">
+    <div class="row">
+        <div class="col-12">
+            <div class="container">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <div class="mb-5 p-2 text-center bg-dark text-white rounded largura_tabela_grande">
+                            <h3>Utilizadores</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <p>
+                            <a class="text-white p-1 bg-black" asp-page="/Administracao/NovoUtilizador" asp-route-idPagina="@Model.Id" asp-route-texto="@Model.Texto"
+                               data-bs-toggle="tooltip" title="Novo Utilizador"><i class="fa-solid fa-plus"></i></a>
+                        </p>
+                        <table class="table table-secondary text-center table-striped table-hover largura_tabela_grande">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th></th>
+                                    <th class="p-4">Nome</th>
+                                    <th class="p-4">Género</th>
+                                    <th class="p-4">Data Nasc.</th>
+                                    <th class="p-4">Nacionalidade</th>
+                                    <th class="p-4">Permissões</th>
+                                    <th class="p-4" colspan="4">Acções</th>
+                                </tr>
+                            <thead>
+                            <tbody>
+                                        @if (Model.Utilizadores!=null)
+                                        {
+                                            foreach (Utilizador utilizador in Model.Utilizadores)
+                                            {
+                                        <tr>
+                                            <td>
+                                                        @if (string.IsNullOrEmpty(utilizador.FotoUrl))
+                                                        {
+                                                    <img class="img-thumbnail imagem_avaliacoes"
+                                                         class="card-img-top" src="~/img/imagens-site/image_not_found.jpg" alt="Foto de Utilizador" />
+                                                        }
+                                                        else
+                                                        {
+                                                    <img class="img-thumbnail imagem_avaliacoes"
+                                                         class="card-img-top" src="~/img/uploads-users/@utilizador.FotoUrl" alt="Foto de Utilizador" />
+                                                        }
+                                            </td>
+                                            <td>
+
+                                                &nbsp;&nbsp;&nbsp;
+                                                        @utilizador.PrimeiroNome @utilizador.UltimoNome
+                                            </td>
+
+                                                    @if (utilizador.Genero == TipoDeGenero.SemSeleccao)
+                                                    {
+                                                <td class="p-2"></td>
+                                                    }
+                                                    else
+                                                    {
+                                                <td class="p-2">@utilizador.Genero</td>
+                                                    }
+                                                    @if (utilizador.DataDeNascimento == null)
+                                                    {
+                                                <td class="p-2"></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        DateTime data = (DateTime)utilizador.DataDeNascimento;
+                                                <td class="p-2">@data.ToString("yyyy-MM-dd")</td>
+                                                    }
+
+                                            <td class="p-2">@utilizador.Nacionalidade</td>
+                                            <td class="p-2">@utilizador.Permissoes</td>
+                                            <td class="p-2">
+                                                <a class="text-black" asp-page="/Administracao/AlterarUtilizador"
+                                                   asp-route-idUser="@utilizador.UtilizadorId"
+                                                   asp-route-idPagina="@Model.Id"
+                                                   asp-route-texto="@Model.Texto"
+                                                   data-bs-toggle="tooltip" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            </td>
+                                            <td class="p-2">
+                                                <a class="text-black" asp-page="/Administracao/ApagarUtilizador"
+                                                   asp-route-idUser="@utilizador.UtilizadorId"
+                                                   asp-route-idPagina="@Model.Id"
+                                                   asp-route-texto="@Model.Texto"
+                                                   data-bs-toggle="tooltip" title="Apagar"
+                                                   onclick="return confirmIt();"><i class="fa-regular fa-trash-can"></i></a>
+                                            </td>
+                                            <td class="p-2">
+                                                <a class="text-black" asp-page="/Administracao/VerAccount"
+                                                   asp-route-idUser="@utilizador.UtilizadorId"
+                                                   asp-route-idPagina="@Model.Id"
+                                                   asp-route-texto="@Model.Texto"
+                                                   data-bs-toggle="tooltip" title="Definiçoes de Utilizador"><i class="fa-solid fa-gear"></i></a>
+                                            </td>
+
+                                                    @if (!string.IsNullOrEmpty(utilizador.FotoUrl))
+                                                    {
+                                                <td class="p-2">
+                                                    <a class="text-black" asp-page="/Administracao/ApagarFotoUtilizador"
+                                                       asp-route-idUser="@utilizador.UtilizadorId"
+                                                       asp-route-idPagina="@Model.Id"
+                                                       asp-route-texto="@Model.Texto"
+                                                       onclick="return confirmItImagem();"
+                                                       data-bs-toggle="tooltip" title="Apagar Fotografia"><i class="fa-solid fa-square-minus"></i></a>
+                                                </td>
+
+                                                    }
+                                                    else
+                                                    {
+                                                <td class="p-2">
+                                                    <a class="text-black" asp-page="/Administracao/AdicionarFotoUtilizador"
+                                                       asp-route-idUser="@utilizador.UtilizadorId"
+                                                       asp-route-idPagina="@Model.Id"
+                                                       asp-route-texto="@Model.Texto"
+                                                       data-bs-toggle="tooltip" title="Adicionar Fotografia"><i class="fa-solid fa-image"></i></a>
+                                                </td>
+                                                    }
+
+                                        </tr>
+                                            }
+                                        }
+                            <tbody>
+                        </table>
+                        @if (Model.Id==0 && Model.MaximoId<1)
+                        {
+                            <p>@Model.NumeroTotalDeUtilizadores resultados de @Model.NumeroTotalDeUtilizadores resultados</p>
+
+                        }
+                        else if (Model.Id==0 && Model.MaximoId>=1)
+                        {
+                            if (Model.NumeroTotalDeUtilizadores==5)
+                            {
+                                <p>@Model.NumeroTotalDeUtilizadores resultados de @Model.NumeroTotalDeUtilizadores resultados</p>
+                            }
+                            else
+                            {
+                                <p>@((1+Model.Id)*5) de @Model.NumeroTotalDeUtilizadores resultados</p>
+                                <ul class="paginacao">
+                                    <li id="proximo" class="lista_paginacao">
+                                        <a class="link_paginacao" asp-page="/Administracao/VerUtilizadores" asp-route-texto="@Model.Texto"
+                                           asp-route-id="@(Model.Id+1)" onclick="LinkActivo(this,'lista_paginacao_activo')">Próximo »</a>
+                                    </li>
+                                </ul>
+                            }
+                        }
+                        else if (Model.Id == Model.MaximoId && Model.MaximoId>0)
+                        {
+                            <p>@Model.NumeroTotalDeUtilizadores de @Model.NumeroTotalDeUtilizadores resultados</p>
+                            <ul class="paginacao">
+                                <li id="anterior" class="lista_paginacao">
+                                    <a class="link_paginacao" asp-page="/Administracao/VerUtilizadores" asp-route-texto="@Model.Texto"
+                                       asp-route-id="@(Model.Id-1)" onclick="LinkActivo(this,'lista_paginacao_activo')">« Anterior</a>
+                                </li>
+                            </ul>
+                        }
+                        else if (Model.Id>0 && Model.Id<Model.MaximoId)
+                        {
+
+                            @if ((Model.Id+1)*5==Model.NumeroTotalDeUtilizadores)
+                            {
+                                <p>@((1+Model.Id)*5) de @Model.NumeroTotalDeUtilizadores resultados</p>
+                                <ul class="paginacao">
+                                    <li id="anterior" class="lista_paginacao">
+                                        <a class="link_paginacao" asp-page="/Administracao/VerUtilizadores"
+                                           asp-route-texto="@Model.Texto" asp-route-id="@(Model.Id-1)"
+                                           onclick="LinkActivo(this,'lista_paginacao_activo')">« Anterior</a>
+                                    </li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <p>@((1+Model.Id)*5) de @Model.NumeroTotalDeUtilizadores resultados</p>
+                                <ul class="paginacao">
+                                    <li id="anterior" class="lista_paginacao">
+                                        <a class="link_paginacao" asp-page="/Administracao/VerUtilizadores"
+                                           asp-route-texto="@Model.Texto" asp-route-id="@(Model.Id-1)"
+                                           onclick="LinkActivo(this,'lista_paginacao_activo')">« Anterior</a>
+                                    </li>
+                                    <li id="proximo" class="lista_paginacao">
+                                        <a class="link_paginacao" asp-page="/Administracao/VerUtilizadores"
+                                           asp-route-texto="@Model.Texto" asp-route-id="@(Model.Id+1)"
+                                           onclick="LinkActivo(this,'lista_paginacao_activo')">Próximo »</a>
+                                    </li>
+                                </ul>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>  
+

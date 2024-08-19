@@ -1,0 +1,153 @@
+﻿@page
+@using Projecto.Receitas.Domain.Model
+@model Projecto.Receitas.WebApp.Pages.Administracao.VerMedidasModel
+@{
+    ViewData["Title"] = "Medidas";
+}
+
+@section pesquisa
+{
+    <div class="pesquisa">
+        <form method="get" asp-page="/Administracao/VerMedidas">
+            <div class="input-group">
+                <input name="texto" type="search" class="form-control" onchange="this.form.submit();" />
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-secondary">Pesquisar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+
+@section navegacao
+{
+    <partial name="_navAdministracao" />
+}
+
+<div class="container fundo_admin pb-5 pt-5 h-100">
+    <div class="row">
+        <div class="col-12">
+            <div class="container">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <div class="mb-5 p-2 text-center bg-dark text-white rounded largura_tabela_pequena">
+                            <h3>Medidas</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <p>
+                            <a class="text-white p-1 bg-black" asp-page="/Administracao/NovaMedida" asp-route-idPagina="@Model.Id" asp-route-texto="@Model.Texto"
+                               data-bs-toggle="tooltip" title="Nova Medida"><i class="fa-solid fa-plus"></i></a>
+                        </p>
+                        <table class="table table-secondary text-center  table-striped table-hover largura_tabela_pequena">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th class="p-4">Nome da Medida</th>
+                                    <th class="p-4">Acções</th>
+                                </tr>
+                            </thead>
+                            </tbody>
+                            @if (Model.Medidas != null)
+                            {
+                                foreach (Medida medida in Model.Medidas)
+                                {
+                                    <tr>
+                                        <td class="p-3">@medida.MedidaNome</td>
+                                        <td class="p-3 d-flex justify-content-end">
+                                            <a class="text-black" asp-page="/Administracao/AlterarMedida"
+                                               asp-route-idMedida="@medida.MedidaId"
+                                               asp-route-idPagina="@Model.Id"
+                                               asp-route-texto="@Model.Texto"
+                                               data-bs-toggle="tooltip" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <a class="text-black" asp-page="/Administracao/ApagarMedida"
+                                               asp-route-idMedida="@medida.MedidaId"
+                                               asp-route-idPagina="@Model.Id"
+                                               asp-route-texto="@Model.Texto"
+                                               data-bs-toggle="tooltip" title="Apagar"
+                                               onclick="return confirmIt();"><i class="fa-regular fa-trash-can"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            </tbody>
+                        </table>
+
+                        @if (Model.Id==0 && Model.MaximoId<1)
+                        {
+                            <p>@Model.NumeroTotalDeMedidas resultados de @Model.NumeroTotalDeMedidas resultados</p>
+
+                        }
+                        else if (Model.Id==0 && Model.MaximoId>=1)
+                        {
+                            if (Model.NumeroTotalDeMedidas==5)
+                            {
+                                <p>@Model.NumeroTotalDeMedidas resultados de @Model.NumeroTotalDeMedidas resultados</p>
+                            }
+                            else
+                            {
+                                <p>@((1+Model.Id)*5) de @Model.NumeroTotalDeMedidas resultados</p>
+                                <ul class="paginacao">
+                                    <li id="proximo" class="lista_paginacao">
+                                        <a class="link_paginacao" asp-page="/Administracao/VerMedidas" asp-route-texto="@Model.Texto"
+                                           asp-route-id="@(Model.Id+1)" onclick="LinkActivo(this,'lista_paginacao_activo')">Próximo »</a>
+                                    </li>
+                                </ul>
+                            }
+                        }
+                        else if (Model.Id == Model.MaximoId && Model.MaximoId>0)
+                        {
+                            <p>@Model.NumeroTotalDeMedidas de @Model.NumeroTotalDeMedidas resultados</p>
+                            <ul class="paginacao">
+                                <li id="anterior" class="lista_paginacao">
+                                    <a class="link_paginacao" asp-page="/Administracao/VerMedidas" asp-route-texto="@Model.Texto"
+                                       asp-route-id="@(Model.Id-1)" onclick="LinkActivo(this,'lista_paginacao_activo')">« Anterior</a>
+                                </li>
+                            </ul>
+                        }
+                        else if (Model.Id>0 && Model.Id<Model.MaximoId)
+                        {
+
+                            @if ((Model.Id+1)*5==Model.NumeroTotalDeMedidas)
+                            {
+                                <p>@((1+Model.Id)*5) de @Model.NumeroTotalDeMedidas resultados</p>
+                                <ul class="paginacao">
+                                    <li id="anterior" class="lista_paginacao">
+                                        <a class="link_paginacao" asp-page="/Administracao/VerMedidas"
+                                           asp-route-texto="@Model.Texto" asp-route-id="@(Model.Id-1)"
+                                           onclick="LinkActivo(this,'lista_paginacao_activo')">« Anterior</a>
+                                    </li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <p>@((1+Model.Id)*5) de @Model.NumeroTotalDeMedidas resultados</p>
+                                <ul class="paginacao">
+                                    <li id="anterior" class="lista_paginacao">
+                                        <a class="link_paginacao" asp-page="/Administracao/VerMedidas"
+                                           asp-route-texto="@Model.Texto" asp-route-id="@(Model.Id-1)"
+                                           onclick="LinkActivo(this,'lista_paginacao_activo')">« Anterior</a>
+                                    </li>
+                                    <li id="proximo" class="lista_paginacao">
+                                        <a class="link_paginacao" asp-page="/Administracao/VerMedidas"
+                                           asp-route-texto="@Model.Texto" asp-route-id="@(Model.Id+1)"
+                                           onclick="LinkActivo(this,'lista_paginacao_activo')">Próximo »</a>
+                                    </li>
+                                </ul>
+                            }
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+

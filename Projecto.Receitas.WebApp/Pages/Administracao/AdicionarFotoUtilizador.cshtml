@@ -1,0 +1,57 @@
+﻿@page
+@model Projecto.Receitas.WebApp.Pages.Administracao.AdicionarFotoUtilizadorModel
+@{
+    ViewData["Title"] = "Adicionar Foto";
+}
+
+@section pesquisa
+{
+    <partial name="_semPesquisa" />
+}
+
+@section navegacao
+{
+    <partial name="_navAdministracao" />
+}
+
+<div class="container fundo_admin h-100">
+    <div class="row p-5">
+        <div class="col-2"></div>
+        <div class="col-10">
+            <div class="card container_dimensoes">
+                <div class="card-header text-center bg-dark text-white">
+                    <h3>Adicionar Fotografia</h3>
+                </div>
+                <div class="card-body bg-secondary bg-opacity-50 bg-gradient">
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col-2"></div>
+                                <div class="col-10">
+                                    <form method="post" enctype="multipart/form-data">
+                                        <input asp-for="IdUser" type="hidden" />
+                                        <div class="form-group row m-3">
+                                            <label asp-for="Foto" class="col-4 form-label"></label>
+                                            <input asp-for="Foto" type="file" class="col-8 form-control" />
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Foto" class="col-12 text-danger"></span>
+                                        </div>
+                                        <input asp-for="IdPagina" type="hidden" />
+                                        <input asp-for="Texto" type="hidden" />
+                                        <div class="row m-3 mt-5">
+                                            <a asp-page="/Administracao/VerUtilizadores" asp-route-id="@Model.IdPagina"
+                                               asp-route-texto="@Model.Texto" class="col-4 btn btn-dark">Voltar</a>
+                                            <div class="col-4"></div>
+                                            <button type="submit" class="col-4 btn btn-secondary">Alterar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+﻿@page
+@model Projecto.Receitas.WebApp.Pages.Administracao.NovaMedidaModel
+@{
+    ViewData["Title"] = "Nova Medida";
+}
+
+@section pesquisa
+{
+    <partial name="_semPesquisa" />
+}
+
+@section navegacao
+{
+    <partial name="_navAdministracao" />
+}
+
+
+<div class="container fundo_admin h-100 p-5">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-10">
+            <div class="card container_dimensoes">
+                <div class="card-header text-center bg-dark text-white">
+                    <h3>Criar Nova Medida</h3>
+                </div>
+                <div class="card-body bg-secondary bg-opacity-50 bg-gradient">
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col-2"></div>
+                                <div class="col-10">
+                                    <form method="post">
+                                        <div class="form-group row m-3">
+                                            <div class="input-group col-12">
+                                                <span class="input-group-text">Nome da Medida</span>
+                                                <input asp-for="Medida.MedidaNome" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Medida.MedidaNome" class="col-12 text-danger"></span>
+                                        </div>
+                                        <input asp-for="IdPagina" type="hidden" />
+                                        <input asp-for="Texto" type="hidden" />
+                                        <div class="row m-3">
+                                            <a asp-page="/Administracao/VerMedidas" asp-route-id="@Model.IdPagina"
+                                               class="col-4 btn btn-dark" asp-route-texto="@Model.Texto">Voltar</a>
+                                            <div class="col-4"></div>
+                                            <button type="submit" class="col-4 btn btn-secondary">Enviar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

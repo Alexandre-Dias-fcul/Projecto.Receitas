@@ -1,0 +1,172 @@
+﻿@page
+@model Projecto.Receitas.WebApp.Pages.Administracao.NovoEnderecoModel
+@{
+    ViewData["Title"] = "Novo Endereço";
+}
+
+@section pesquisa
+{
+    <partial name="_semPesquisa" />
+}
+
+@section navegacao
+{
+    <partial name="_navAdministracao" />
+}
+
+<div class="container fundo_admin">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <div class="container mt-5 mb-5 container_definicoes_exterior">
+                <div class="row">
+                    <div class="col-12 p-4 bg-dark">
+                        <h3 class="text-white text-center">
+                            Endereços
+                        </h3>
+                    </div>
+                </div>
+                <div class="row bg-secondary">
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <div class="col-10">
+                                <div class="card card_definicoes mt-5">
+                                    @if (string.IsNullOrEmpty(Model.Utilizador.FotoUrl))
+                                    {
+                                        <img class="card-img-top" src="~/img/imagens-site/image_not_found.jpg" alt="Foto de Utilizador" />
+                                    }
+                                    else
+                                    {
+                                        <img class="card-img-top" src="~/img/uploads-users/@Model.Utilizador.FotoUrl" alt="Foto de Utilizador" />
+                                    }
+                                    <div class="card-footer text-center">
+                                        <h3>@Model.Utilizador.PrimeiroNome @Model.Utilizador.UltimoNome</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <div class="col-6">
+                                <nav class="sidebar mt-5 mb-5">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white mouse_hover" asp-page="/Administracao/VerAccount"
+                                               asp-route-idUser="@Model.Utilizador.UtilizadorId"
+                                               asp-route-idPagina="@Model.IdPagina"
+                                               asp-route-texto="@Model.Texto">Account</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white mouse_hover" asp-page="/Administracao/VerContactos"
+                                               asp-route-idUser="@Model.Utilizador.UtilizadorId"
+                                               asp-route-idPagina="@Model.IdPagina"
+                                               asp-route-texto="@Model.Texto">Contactos</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white mouse_hover" asp-page="/Administracao/VerEnderecos"
+                                               asp-route-idUser="@Model.Utilizador.UtilizadorId"
+                                               asp-route-idPagina="@Model.IdPagina"
+                                               asp-route-texto="@Model.Texto">Endereços</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-white mouse_hover" asp-page="/Administracao/VerAvaliacoes"
+                                               asp-route-idUser="@Model.Utilizador.UtilizadorId"
+                                               asp-route-idPagina="@Model.IdPagina"
+                                               asp-route-texto="@Model.Texto">Avaliações</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-white mouse_hover" asp-page="/Administracao/VerComentariosAdministracao"
+                                               asp-route-idUser="@Model.Utilizador.UtilizadorId"
+                                               asp-route-idPagina="@Model.IdPagina"
+                                               asp-route-texto="@Model.Texto">Comentários</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-white mouse_hover" asp-page="/Administracao/VerFavoritosAdministracao"
+                                               asp-route-idUser="@Model.Utilizador.UtilizadorId"
+                                               asp-route-idPagina="@Model.IdPagina"
+                                               asp-route-texto="@Model.Texto">Favoritos</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white mouse_hover" asp-page="/Administracao/VerUtilizadores"
+                                               asp-route-id="@Model.IdPagina" asp-route-texto="@Model.Texto">Voltar à Lista</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="rows">
+                            <div class="col-10">
+                                <div class="card mt-5 mb-5 border-0">
+                                    <div class="card-header bg-dark text-center text-white">
+                                        Novo Endereço
+                                    </div>
+                                    <div class="card-body bg-light text-center text-white">
+                                        <div class="row">
+                                            <div class="col-1"></div>
+                                            <div class="col-9">
+                                                <form method="post">
+                                                    <div class="form-group row mt-3 mb-3">
+                                                        <div class="input-group col-md-12">
+                                                            <span class="input-group-text">Rua</span>
+                                                            <input asp-for="Endereco.Rua" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span asp-validation-for="Endereco.Rua" class="col-12 text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group row mt-3 mb-3">
+                                                        <div class="input-group col-md-12">
+                                                            <span class="input-group-text">Código Postal</span>
+                                                            <input asp-for="Endereco.CodigoPostal" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span asp-validation-for="Endereco.CodigoPostal" class="col-12 text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group row mt-3 mb-3">
+                                                        <div class="input-group col-md-12">
+                                                            <span class="input-group-text">Localidade</span>
+                                                            <input asp-for="Endereco.Localidade" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span asp-validation-for="Endereco.Localidade" class="col-12 text-danger"></span>
+                                                    </div>
+
+                                                    <div class="form-group row mt-3 mb-3">
+                                                        <div class="input-group col-md-12">
+                                                            <span class="input-group-text">País</span>
+                                                            <input asp-for="Endereco.Pais" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span asp-validation-for="Endereco.Pais" class="col-12 text-danger"></span>
+                                                    </div>
+                                                    <input asp-for="Endereco.UtilizadorId" type="hidden" />
+                                                    <input asp-for="IdPagina" type="hidden" />
+                                                    <input asp-for="Texto" type="hidden" />
+                                                    <div class="row m-3">
+                                                        <a class="col-4 btn btn-dark" asp-page="/Administracao/VerEnderecos"
+                                                           asp-route-idUser="@Model.Utilizador.UtilizadorId"
+                                                           asp-route-idPagina="@Model.IdPagina"
+                                                           asp-route-texto="@Model.Texto">Voltar</a>
+                                                        <div class="col-3"></div>
+                                                        <button type="submit" class="col-4 btn btn-secondary">Enviar</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

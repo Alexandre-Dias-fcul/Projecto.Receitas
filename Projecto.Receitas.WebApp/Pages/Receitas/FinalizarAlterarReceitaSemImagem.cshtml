@@ -1,0 +1,121 @@
+﻿@page
+@model Projecto.Receitas.WebApp.Pages.Receitas.FinalizarAlterarReceitaSemImagemModel
+@{
+    ViewData["Title"] = "Alterar Receita";
+}
+
+@section pesquisa
+{
+    <partial name="_pesquisaIndex" />
+}
+
+@section navegacao
+{
+    <partial name="_navAutenticado" />
+}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary barra_finalizar">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item" id="finalizarAdicionarReceita">
+                <a class="nav-link" asp-page="/Receitas/FinalizarAdicionarReceita" onclick="LinkActivo(this,'active')"
+                   asp-route-id="@Model.Receita.ReceitaId"
+                   asp-route-codigo="@Model.Codigo">Adicionar Receita</a>
+            </li>
+            <li class="nav-item" id="alterarReceita">
+                <a class="nav-link" asp-page="/Receitas/FinalizarAlterarReceita" onclick="LinkActivo(this,'active')"
+                   asp-route-id="@Model.Receita.ReceitaId"
+                   asp-route-codigo="@Model.Codigo">Alterar Receita</a>
+            </li>
+            <li class="nav-item" id="adicionarIngrediente">
+                <a class="nav-link" asp-page="/Receitas/FinalizarAdicionarIngredientes" onclick="LinkActivo(this,'active')"
+                   asp-route-id="@Model.Receita.ReceitaId"
+                   asp-route-codigo="@Model.Codigo">Adicionar Ingrediente</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="/Receitas/VerMinhasReceitas">As Minha Receitas</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container fundo_finalizar">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-10">
+            <div class="card container_dimensoes m-5">
+                <div class="card-header text-center bg-dark text-white">
+                    <h3>Alterar Receita</h3>
+                </div>
+                <div class="card-body bg-secondary bg-opacity-50 bg-gradient">
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col-2"></div>
+                                <div class="col-10">
+                                    <form method="post" enctype="multipart/form-data">
+                                        <input asp-for="Receita.ReceitaId" type="hidden" />
+                                        <div class="form-group row m-3">
+                                            <div class="input-group col-md-12">
+                                                <span class="input-group-text">Título</span>
+                                                <input asp-for="Receita.Titulo" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Receita.Titulo" class="col-12 text-danger"></span>
+                                        </div>
+                                        <div class="form-group row m-3">
+                                            <label asp-for="Receita.Imagem" class="col-4 form-label"></label>
+                                            <input asp-for="Receita.Imagem" type="file" class="col-8 form-control" />
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Receita.Imagem" class="col-md-12 text-danger"></span>
+                                        </div>
+                                        <div class="form-group row m-3">
+                                            <label asp-for="Receita.ModoDePreparacao" class="col-6 form-label">Modo de Preparação</label>
+                                            <textarea asp-for="Receita.ModoDePreparacao" rows="10" cols="20" class="col-6 form-control"></textarea>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Receita.ModoDePreparacao" class="col-12 text-danger"></span>
+                                        </div>
+                                        <div class="form-group row m-3">
+                                            <label asp-for="Receita.TempoDePreparacao" class="col-6 form-label">Tempo de Preparação</label>
+                                            <select asp-for="Receita.TempoDePreparacao" asp-items="@Model.Tempos" class="col-6 form-select"></select>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Receita.TempoDePreparacao" class="col-12 text-danger"></span>
+                                        </div>
+                                        <div class="form-group row m-3">
+                                            <label asp-for="Receita.Dificuldade" class="col-6 form-label">Grau de Dificuldade</label>
+                                            <select asp-for="Receita.Dificuldade" asp-items="@Model.Graus" class="col-6 form-select"></select>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Receita.Dificuldade" class="col-12 text-danger"></span>
+                                        </div>
+                                        <div class="form-group row m-3">
+                                            <label asp-for="Receita.CategoriaId" class="col-6 form-label">Categoria</label>
+                                            <select asp-for="Receita.CategoriaId" asp-items="@Model.Categorias" class="col-6 form-select"></select>
+                                        </div>
+                                        <div class="row">
+                                            <span asp-validation-for="Receita.CategoriaId" class="col-12 text-danger"></span>
+                                        </div>
+                                        <input asp-for="Receita.UtilizadorId" type="hidden" />
+                                        <input asp-for="Codigo" type="hidden" />
+                                        <div class="row m-4">
+                                            <div class="col-4"></div>
+                                            <button type="submit" class="col-4 btn btn-secondary">Guardar</button>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

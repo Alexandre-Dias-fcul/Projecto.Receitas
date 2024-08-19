@@ -1,0 +1,343 @@
+﻿@page
+@using Projecto.Receitas.Domain.Model
+@using Projecto.Receitas.WebApp.ViewModel
+@inject IHttpContextAccessor Accessor
+
+@model IndexModel
+@{
+    ViewData["Title"] = "Receitas";
+}
+
+@section pesquisa
+{
+    <partial name="_pesquisaIndex" />
+}
+
+@if (Accessor.HttpContext.Session.Keys.Contains("Permissoes"))
+{
+    @section navegacao
+    {
+       <partial name="_navAutenticado" />
+    }
+}
+else
+{
+    @section navegacao
+    {
+       <partial name="_navAnonimo" />
+    }
+}
+
+<div class="container fundo">
+    <div class="row">
+        <div class="col-12">
+            <div class="container mt-3" style="min-width:1000px;">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <div class="p-2 bg-dark">
+                            <h3 class="text-white text-center">
+                                As Três Melhores Receitas
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mt-3" style="min-width:1000px;">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <div id="demo" class="carousel slide" data-bs-ride="carousel">
+
+                            <!-- Indicators/dots -->
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+                                <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+                                <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                            </div>
+
+                            <!-- The slideshow/carousel -->
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="/img/uploads-receitas/@Model.ReceitasTop3[0].ImagemUrl" alt="Receita" class="dimensoes_imagem_index">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="/img/uploads-receitas/@Model.ReceitasTop3[1].ImagemUrl" alt="Receita" class="dimensoes_imagem_index">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="/img/uploads-receitas/@Model.ReceitasTop3[2].ImagemUrl" alt="Receita" class="dimensoes_imagem_index">
+                                </div>
+                            </div>
+
+                            <!-- Left and right controls/icons -->
+                            <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container mt-3" style="min-width:1000px;">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <div class="p-2 bg-dark">
+                            <h3 class="text-white text-center">
+                                Lista de Receitas
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container_article">
+
+                @{
+                    int numeroDeGrupos = Model.Receitas.Count/3;
+
+                    for (int i = 0; i<numeroDeGrupos; i++)
+                    {
+                        <div class="card-group">
+
+                            @for (int j = i*3; j<(i+1)*3; j++)
+                            {
+                                <div class="card definicoes_card_index shadow bg-light m-4">
+                                    @if (string.IsNullOrEmpty(Model.Receitas[j].Receita.ImagemUrl))
+                                    {
+                                        <img src="/img/imagens-site/image_not_found.jpg" class="card-img-top rounded-top"
+                                             alt="Receita" />
+                                    }
+                                    else
+                                    {
+                                        <img src="/img/uploads-receitas/@Model.Receitas[j].Receita.ImagemUrl" class="card-img-top rounded-top"
+                                             alt="Receita" />
+                                    }
+                                    <div class="card-body rounded-bottom">
+                                        <div class="card-title text-center">
+                                            <a asp-page="/Detalhes" class="link-dark"
+                                               asp-route-id="@Model.Receitas[j].Receita.ReceitaId">@Model.Receitas[j].Receita.Titulo</a>
+                                        </div>
+
+                                        <div class="card-text">
+                                            <div class="row ms-2 mt-3 mb-5">
+                                                <div class="col-4">
+                                                    @((int)Model.Receitas[j].Receita.TempoDePreparacao) <i class="fa-solid fa-clock"></i>
+                                                </div>
+                                                @if (Model.Receitas[j].Receita.Dificuldade==GrauDeDificuldade.MuitoFacil)
+                                                {
+                                                    <div class="col-4 cor_dificuldade_index">Muito Fácil</div>
+                                                }
+                                                else if (Model.Receitas[j].Receita.Dificuldade==GrauDeDificuldade.Facil)
+                                                {
+                                                    <div class="col-4 cor_dificuldade_index">Fácil</div>
+                                                }
+                                                else if (Model.Receitas[j].Receita.Dificuldade==GrauDeDificuldade.Medio)
+                                                {
+                                                    <div class="col-4 cor_dificuldade_index">Médio</div>
+                                                }
+                                                else if (Model.Receitas[j].Receita.Dificuldade==GrauDeDificuldade.Dificil)
+                                                {
+                                                    <div class="col-4 cor_dificuldade_index">Difícil</div>
+                                                }
+                                                else if (Model.Receitas[j].Receita.Dificuldade==GrauDeDificuldade.MuitoDificil)
+                                                {
+                                                    <div class="col-4 cor_dificuldade_index">Muito Difícil</div>
+                                                }
+                                                <div class="col-4">
+                                                    @Math.Round(Model.Receitas[j].Avaliacao, 1) <span class="fa fa-star checked"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+
+                    if (Model.Receitas.Count%3==2)
+                    {
+                        <div class="card-group">
+                            <div class="card definicoes_card_index shadow bg-light m-4">
+                                @if (string.IsNullOrEmpty(Model.Receitas[Model.Receitas.Count-2].Receita.ImagemUrl))
+                                {
+                                    <img src="/img/imagens-site/image_not_found.jpg"
+                                         class="card-img-top rounded-top" alt="Receita" />
+                                }
+                                else
+                                {
+                                    <img src="/img/uploads-receitas/@Model.Receitas[Model.Receitas.Count-2].Receita.ImagemUrl"
+                                         class="card-img-top rounded-top" alt="Receita" />
+                                }
+                                
+                                <div class="card-body rounded-bottom">
+                                    <div class="card-title text-center">
+                                        <a asp-page="/Detalhes" class="link-dark"
+                                           asp-route-id="@Model.Receitas[Model.Receitas.Count-2].Receita.ReceitaId">@Model.Receitas[Model.Receitas.Count-2].Receita.Titulo</a>
+                                    </div>
+
+                                    <div class="card-text">
+                                        <div class="row ms-2 mt-3 mb-5">
+                                            <div class="col-4">
+                                                @((int)Model.Receitas[Model.Receitas.Count-2].Receita.TempoDePreparacao) <i class="fa-solid fa-clock"></i>
+                                            </div>
+                                            @if (Model.Receitas[Model.Receitas.Count-2].Receita.Dificuldade==GrauDeDificuldade.MuitoFacil)
+                                            {
+                                                <div class="col-4 cor_dificuldade_index">Muito Fácil</div>
+                                            }
+                                            else if (Model.Receitas[Model.Receitas.Count-2].Receita.Dificuldade==GrauDeDificuldade.Facil)
+                                            {
+                                                <div class="col-4 cor_dificuldade_index">Fácil</div>
+                                            }
+                                            else if (Model.Receitas[Model.Receitas.Count-2].Receita.Dificuldade==GrauDeDificuldade.Medio)
+                                            {
+                                                <div class="col-4 cor_dificuldade_index">Médio</div>
+                                            }
+                                            else if (Model.Receitas[Model.Receitas.Count-2].Receita.Dificuldade==GrauDeDificuldade.Dificil)
+                                            {
+                                                <div class="col-4 cor_dificuldade_index">Difícil</div>
+                                            }
+                                            else if (Model.Receitas[Model.Receitas.Count-2].Receita.Dificuldade==GrauDeDificuldade.MuitoDificil)
+                                            {
+                                                <div class="col-4 cor_dificuldade_index">Muito Difícil</div>
+                                            }
+                                            <div class="col-4">
+                                                @Math.Round(Model.Receitas[Model.Receitas.Count-2].Avaliacao, 1) <span class="fa fa-star checked"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card definicoes_card_index shadow bg-light m-4">
+                                @if (string.IsNullOrEmpty(Model.Receitas[Model.Receitas.Count-1].Receita.ImagemUrl))
+                                {
+                                    <img src="/img/imagens-site/image_not_found.jpg"
+                                         class="card-img-top rounded-top" alt="Receita" />
+                                }
+                                else
+                                {
+                                    <img src="/img/uploads-receitas/@Model.Receitas[Model.Receitas.Count-1].Receita.ImagemUrl"
+                                         class="card-img-top rounded-top" alt="Receita" />
+                                }
+                                
+                                <div class="card-body rounded-bottom">
+                                    <div class="card-title text-center">
+                                        <a asp-page="/Detalhes" class="link-dark"
+                                           asp-route-id="@Model.Receitas[Model.Receitas.Count-1].Receita.ReceitaId">@Model.Receitas[Model.Receitas.Count-1].Receita.Titulo</a>
+                                    </div>
+
+                                    <div class="card-text">
+                                        <div class="row ms-2 mt-3 mb-5">
+                                            <div class="col-4">
+                                                @((int)Model.Receitas[Model.Receitas.Count-1].Receita.TempoDePreparacao) <i class="fa-solid fa-clock"></i>
+                                            </div>
+                                            @if (Model.Receitas[Model.Receitas.Count-1].Receita.Dificuldade==GrauDeDificuldade.MuitoFacil)
+                                            {
+                                                <div class="col-4 cor_dificuldade_index">Muito Fácil</div>
+                                            }
+                                            else if (Model.Receitas[Model.Receitas.Count-1].Receita.Dificuldade==GrauDeDificuldade.Facil)
+                                            {
+                                                <div class="col-4 cor_dificuldade_index">Fácil</div>
+                                            }
+                                            else if (Model.Receitas[Model.Receitas.Count-1].Receita.Dificuldade==GrauDeDificuldade.Medio)
+                                            {
+                                                <div class="col-4 cor_dificuldade_index">Médio</div>
+                                            }
+                                            else if (Model.Receitas[Model.Receitas.Count-1].Receita.Dificuldade==GrauDeDificuldade.Dificil)
+                                            {
+                                                <div class="col-4 cor_dificuldade_index">Difícil</div>
+                                            }
+                                            else if (Model.Receitas[Model.Receitas.Count-1].Receita.Dificuldade==GrauDeDificuldade.MuitoDificil)
+                                            {
+                                                <div class="col-4 cor_dificuldade_index">Muito Difícil</div>
+                                            }
+                                            <div class="col-4">
+                                                @Math.Round(Model.Receitas[Model.Receitas.Count-1].Avaliacao, 1) <span class="fa fa-star checked"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card definicoes_card_index bg-transparent m-4" style="border:hidden">
+                            </div>
+                        </div>
+
+                    }
+
+
+                    if (Model.Receitas.Count%3==1)
+                    {
+                        <div class="card-group">
+                            <div class="card definicoes_card_index shadow bg-light m-4">
+                                @if (string.IsNullOrEmpty(Model.Receitas[Model.Receitas.Count-1].Receita.ImagemUrl))
+                                {
+                                    <img src="/img/imagens-site/image_not_found.jpg"
+                                         class="card-img-top rounded-top" alt="Receita" />
+                                }
+                                else
+                                {
+                                    <img src="/img/uploads-receitas/@Model.Receitas[Model.Receitas.Count-1].Receita.ImagemUrl"
+                                         class="card-img-top rounded-top" alt="Receita" />
+                                }
+                                <div class="card-body rounded-bottom">
+                                    <div class="card-title text-center">
+                                        <a asp-page="/Detalhes" class="link-dark"
+                                           asp-route-id="@Model.Receitas[Model.Receitas.Count-1].Receita.ReceitaId">@Model.Receitas[Model.Receitas.Count-1].Receita.Titulo</a>
+                                    </div>
+
+                                    <div class="card-text">
+                                        <div class="row ms-2 mt-3 mb-5">
+                                            <div class="col-4">
+                                                @((int)Model.Receitas[Model.Receitas.Count-1].Receita.TempoDePreparacao) <i class="fa-solid fa-clock"></i>
+                                            </div>
+                                            @if (Model.Receitas[Model.Receitas.Count-1].Receita.Dificuldade==GrauDeDificuldade.MuitoFacil)
+                                            {
+                                                <div class="col-4 cor_dificuldade_index">Muito Fácil</div>
+                                            }
+                                            else if (Model.Receitas[Model.Receitas.Count-1].Receita.Dificuldade==GrauDeDificuldade.Facil)
+                                            {
+                                                <div class="col-4 cor_dificuldade_index">Fácil</div>
+                                            }
+                                            else if (Model.Receitas[Model.Receitas.Count-1].Receita.Dificuldade==GrauDeDificuldade.Medio)
+                                            {
+                                                <div class="col-4 cor_dificuldade_index">Médio</div>
+                                            }
+                                            else if (Model.Receitas[Model.Receitas.Count-1].Receita.Dificuldade==GrauDeDificuldade.Dificil)
+                                            {
+                                                <div class="col-4 cor_dificuldade_index">Difícil</div>
+                                            }
+                                            else if (Model.Receitas[Model.Receitas.Count-1].Receita.Dificuldade==GrauDeDificuldade.MuitoDificil)
+                                            {
+                                                <div class="col-4 cor_dificuldade_index">Muito Difícil</div>
+                                            }
+                                            <div class="col-4">
+                                                @Math.Round(Model.Receitas[Model.Receitas.Count-1].Avaliacao, 1) <span class="fa fa-star checked"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card definicoes_card_index bg-transparent m-4" style="border:hidden">
+                            </div>
+                            <div class="card definicoes_card_index bg-transparent m-4" style="border:hidden">
+                            </div>
+                        </div>
+                    }
+
+                }
+
+            </div>
+            @if (Model.Id<=Model.MaximoId && Model.Id>=1)
+            {
+                <div class="ver_mais"><a class="bg-white" asp-page="/Index" asp-route-id="@Model.Id">Ver Mais</a></div>
+            }
+        </div>
+    </div> 
+</div>
+
+
+
+

@@ -1,0 +1,108 @@
+﻿@page
+@model Projecto.Receitas.WebApp.Pages.Receitas.AdicionarComentarioModel
+@{
+    ViewData["Title"] = "Comentar a receita";
+}
+
+@section pesquisa
+{
+    <partial name="_pesquisaIndex" />
+}
+
+@section navegacao
+{
+    <partial name="_navAutenticado" />
+}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary barra_receitas">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item" id="receita">
+                <a class="nav-link" asp-page="/Detalhes" onclick="LinkActivo(this,'active')"
+                   asp-route-id="@Model.Receita.ReceitaId">Ver a Receita</a>
+            </li>
+            <li class="nav-item" id="verComentario">
+                <a class="nav-link" asp-page="/VerComentarios" onclick="LinkActivo(this,'active')"
+                   asp-route-id="@Model.Receita.ReceitaId">Ver Comentários</a>
+            </li>
+            <li class="nav-item" id="adicionarComentario">
+                <a class="nav-link" asp-page="/Receitas/AdicionarComentario"
+                   asp-route-id="@Model.Receita.ReceitaId" 
+                   asp-route-codigo="@Model.Codigo"
+                   onclick="LinkActivo(this,'active')">Adicionar Comentário</a>
+            </li>
+            <li class="nav-item" id="avaliacao">
+                <a class="nav-link" asp-page="/Receitas/AdicionarAvaliacao"
+                   asp-route-id="@Model.Receita.ReceitaId" 
+                   asp-route-codigo="@Model.Codigo"
+                   onclick="LinkActivo(this,'active')">Avaliar a Receita</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container fundo_receitas">
+    <div class="row">
+              <div class="col-1"></div>
+              <div class="col-5">
+                    <div class="row mb-5 mt-5">
+                        <div class="col-10">
+                            <div class="card card_imagem_detalhes">
+                                <div class="card-header card_header_comentarios">
+                                    <h3 class="text-center">@Model.Receita.Titulo</h3>
+                                </div>
+                                @if(string.IsNullOrEmpty(Model.Receita.ImagemUrl))
+                                {
+                                    <img src="~/img/imagens-site/image_not_found.jpg" class="card-img" alt="Receita" />
+                                }
+                                else
+                                {
+                                    <img src="~/img/uploads-receitas/@Model.Receita.ImagemUrl" class="card-img" alt="Receita" />
+                                }
+                                 <div class="card-body p-4">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            @((int)Model.Receita.TempoDePreparacao) min
+                                        </div>
+                                        <div class="col-6"></div>
+                                        <div class="col-3">
+                                            @Math.Round(Model.AvaliacaoMedia, 1) <span class="fa fa-star checked"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-5 m-5">
+                    <div class="row">
+                        <div class="col-12 card card_adicionar_comentarios">
+                            <div class="card-header text-center">
+                                <h2>Adicione um Comentário</h2>
+                            </div>
+                            <div class="card-body">
+                                <form method="post">
+                                    <div class="form-group row m-5">
+                                        <label class="form-label col-4" asp-for="Comentario.Mensagem">Mensagem</label>
+                                        <textarea asp-for="Comentario.Mensagem" class="col-8 form-control" cols="60" rows="10" placeholder="Escreva aqui o seu comentario..."></textarea>
+                                    </div>
+                                    <input asp-for="Comentario.ReceitaId" type="hidden" />
+                                    <input asp-for="Comentario.UtilizadorId" type="hidden" />
+                                    <input asp-for="Codigo" type="hidden"/>
+                                    <div class="row m-5">
+                                        <div class="col-4"></div>
+                                        <button type="submit" class="col-4 btn btn-secondary">Enviar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+        </div> 
+ </div>
+
+
